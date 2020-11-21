@@ -1,7 +1,12 @@
 	'use strict'
 
+	const n = 100;
 
-	for (let i = 2; i <= 10; i++) {
-		if (i % 2) continue;
-		alert(i);
-	}
+	nextPrime:
+	    for (let i = 2; i <= n; i++) {
+
+	        for (let j = 2; j < i; j++) {
+	            if (!(i % j)) continue nextPrime;
+	        }
+	        console.log(i);
+	    }
