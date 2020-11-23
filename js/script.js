@@ -1,12 +1,22 @@
 	'use strict'
 
-	const n = 100;
-
-	nextPrime:
-	    for (let i = 2; i <= n; i++) {
-
-	        for (let j = 2; j < i; j++) {
-	            if (!(i % j)) continue nextPrime;
+	function multiplyNumeric(obj) {
+	    for (let key in obj) {
+	        if (typeof(obj[key]) == "number") {
+	            obj[key] *= 2;
 	        }
-	        console.log(i);
 	    }
+	}
+
+	let menu = {
+	    width: 200,
+	    height: 300,
+	    title: "My menu"
+	};
+
+	alert(`${menu.width} - ${menu.height} - ${menu.title}`);
+
+	multiplyNumeric(menu);
+
+
+	alert(`${menu.width} - ${menu.height} - ${menu.title}`);
