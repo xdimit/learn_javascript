@@ -1,22 +1,20 @@
 	'use strict'
 
-	function multiplyNumeric(obj) {
-	    for (let key in obj) {
-	        if (typeof(obj[key]) == "number") {
-	            obj[key] *= 2;
-	        }
-	    }
-	}
+	let calculator = {
+	    read() {
+	        this.num1 = +prompt("Enter num1: ", "");
+	        this.num2 = +prompt("Enter num2: ", "");
+	    },
 
-	let menu = {
-	    width: 200,
-	    height: 300,
-	    title: "My menu"
+	    sum() {
+	    	return this.num1 + this.num2;
+	    },
+
+	    mul() {
+	    	return this.num1 * this.num2;	
+	    },
 	};
 
-	alert(`${menu.width} - ${menu.height} - ${menu.title}`);
-
-	multiplyNumeric(menu);
-
-
-	alert(`${menu.width} - ${menu.height} - ${menu.title}`);
+	calculator.read();
+	alert(calculator.sum());
+	alert(calculator.mul());
