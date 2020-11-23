@@ -1,19 +1,18 @@
 'use strict'
 
-let ladder = {
-    step: 0,
-    up() {
-        this.step++;
-        return this;
-    },
-    down() {
-        this.step--;
-        return this;
-    },
-    showStep: function() { // показывает текущую ступеньку
-        alert(this.step);
+function Accumulator(startingValue) {
+
+    this.value = startingValue;
+
+    this.read = function() {
+        let num = +prompt("Enter number: ", "");
+        return this.value += num;
     }
-};
+}
 
+let accumulator = new Accumulator(1); // начальное значение 1
 
-ladder.up().up().down().showStep();
+accumulator.read(); // прибавит ввод prompt к текущему значению
+accumulator.read(); // прибавит ввод prompt к текущему значению
+
+alert(accumulator.value); // выведет сумму этих значений
