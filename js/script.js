@@ -1,18 +1,16 @@
 'use strict'
 
-function Accumulator(startingValue) {
+function readNumber() {
 
-    this.value = startingValue;
+    let num;
 
-    this.read = function() {
-        let num = +prompt("Enter number: ", "");
-        return this.value += num;
-    }
+    do {
+        num = prompt(`Enter num: `, 0);
+    } while (!isFinite(num));
+
+    if (num === null || num === "") return null;
+
+    return +num;
 }
 
-let accumulator = new Accumulator(1); // начальное значение 1
-
-accumulator.read(); // прибавит ввод prompt к текущему значению
-accumulator.read(); // прибавит ввод prompt к текущему значению
-
-alert(accumulator.value); // выведет сумму этих значений
+alert(readNumber());
