@@ -1,16 +1,23 @@
 'use strict'
 
-function readNumber() {
+function sumInput() {
+    let numbers = [];
+    let sum = 0;
 
-    let num;
+    while (true) {
 
-    do {
-        num = prompt(`Enter num: `, 0);
-    } while (!isFinite(num));
+        let value = prompt("Enter num: ", "");
 
-    if (num === null || num === "") return null;
+        if (!isFinite(value) || value === "" || value === null) break;
 
-    return +num;
+        numbers.push(+value);
+    }
+
+    for (let num of numbers) {
+        sum += num;
+    }
+
+    return sum;
 }
 
-alert(readNumber());
+console.log(sumInput());
