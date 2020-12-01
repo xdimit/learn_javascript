@@ -1,26 +1,20 @@
 'use strict'
 
-// function camelize(str) {
-//     let arr = str.split('-');
-//     let newArr = [];
-//     newArr.push(arr[0]);
-//     for (let i = 1; i < arr.length; i++) {
+function getMaxSubSum(arr) {
+    let maxSum = 0;
+    let partialSum = 0
+    for (let i = 0; i < arr.length; i++) {
+    	partialSum += arr[i];
+    	maxSum = Math.max(maxSum, partialSum);
+    	if (partialSum < 0) partialSum = 0;
 
-//         let string = arr[i];
-
-//         let newString = string[0].toUpperCase() + string.slice(1);
-//         newArr.push(newString);
-//     }
-//     return newArr.join('');
-// }
-
-function camelize(str) {
-    return str
-    .split('-')
-    .map((word, index) => index == 0 ? word : word[0].toUpperCase() + word.slice(1))
-    .join('');
+    }
+    return maxSum;
 }
 
-console.log(camelize("background-color"));
-console.log(camelize("list-style-image"));
-console.log(camelize("-webkit-transition"));
+console.log(getMaxSubSum([-1, 2, 3, -9]));
+console.log(getMaxSubSum([2, -1, 2, 3, -9]));
+console.log(getMaxSubSum([-1, 2, 3, -9, 11]));
+console.log(getMaxSubSum([-2, -1, 1, 2]));
+console.log(getMaxSubSum([100, -9, 2, -3, 5]));
+console.log(getMaxSubSum([1, 2, 3]));
