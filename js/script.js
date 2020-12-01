@@ -1,15 +1,15 @@
 'use strict'
 
-function filterRange(arr, a, b) {
-
-   return arr.filter((item) => (a <= item && item <= b) );
+function filterRangeInPlace(arr, a, b) {
+    arr.forEach((item, index) => {
+        if (a <= item || item <= b) {
+            arr.splice(index, 1);
+        }
+    });
 }
-
 
 let arr = [5, 3, 8, 1];
 
-let filtered = filterRange(arr, 1, 4);
+filterRangeInPlace(arr, 1, 4); // удалены числа вне диапазона 1..4
 
-alert(filtered);
-
-alert(arr);
+alert(arr); // [3, 1]
