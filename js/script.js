@@ -1,15 +1,39 @@
 'use strict'
 
-function filterRangeInPlace(arr, a, b) {
-    arr.forEach((item, index) => {
-        if (a <= item || item <= b) {
-            arr.splice(index, 1);
+function Calculator() {
+
+    this.methods = {
+        "-": (a, b) => a = b,
+        "+": (a, b) => a + b,
+    };
+
+    this.calculate = function(str) {
+        let arr = str.split(' '),
+
+            num1 = +arr[0],
+            op = arr[1],
+            num2 = +arr[2]
+
+        if (!this.methods || isNaN(num1) || isNaN(num2)) {
+            return NaN;
         }
-    });
+
+        return this.methods[op](num1, num2);
+    }
+
+    this.addMethod = function(name, func) {
+        this.methods[name] = func;
+    }
 }
 
-let arr = [5, 3, 8, 1];
+let calc = new Calculator;
 
-filterRangeInPlace(arr, 1, 4); // удалены числа вне диапазона 1..4
+console.log(calc.calculate("3 + 7"));
 
-alert(arr); // [3, 1]
+let powerCalc = new Calculator;
+powerCalc.addMethod("*", (a, b) => a * b);
+powerCalc.addMethod("/", (a, b) => a / b);
+powerCalc.addMethod("**", (a, b) => a ** b);
+
+let result = powerCalc.calculate("2 ** 3");
+console.log(result);
