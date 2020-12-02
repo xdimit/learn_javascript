@@ -1,39 +1,11 @@
 'use strict'
 
-function Calculator() {
-
-    this.methods = {
-        "-": (a, b) => a = b,
-        "+": (a, b) => a + b,
-    };
-
-    this.calculate = function(str) {
-        let arr = str.split(' '),
-
-            num1 = +arr[0],
-            op = arr[1],
-            num2 = +arr[2]
-
-        if (!this.methods || isNaN(num1) || isNaN(num2)) {
-            return NaN;
-        }
-
-        return this.methods[op](num1, num2);
-    }
-
-    this.addMethod = function(name, func) {
-        this.methods[name] = func;
-    }
+function unique(arr) {
+  return Array.from(new Set(arr));
 }
 
-let calc = new Calculator;
+let values = ["Hare", "Krishna", "Hare", "Krishna",
+  "Krishna", "Krishna", "Hare", "Hare", ":-O"
+];
 
-console.log(calc.calculate("3 + 7"));
-
-let powerCalc = new Calculator;
-powerCalc.addMethod("*", (a, b) => a * b);
-powerCalc.addMethod("/", (a, b) => a / b);
-powerCalc.addMethod("**", (a, b) => a ** b);
-
-let result = powerCalc.calculate("2 ** 3");
-console.log(result);
+alert( unique(values) ); // Hare,Krishna,:-O
