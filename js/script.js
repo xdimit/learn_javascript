@@ -1,11 +1,18 @@
 'use strict'
 
-function unique(arr) {
-  return Array.from(new Set(arr));
+function aclean(arr) {
+
+    let map = new Map();
+
+    for (let str of arr) {
+
+        let sorted = str.toLowerCase().split('').sort().join('');
+        map.set(sorted, str);
+    }
+
+    return Array.from(map.values());
 }
 
-let values = ["Hare", "Krishna", "Hare", "Krishna",
-  "Krishna", "Krishna", "Hare", "Hare", ":-O"
-];
+let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
 
-alert( unique(values) ); // Hare,Krishna,:-O
+alert(aclean(arr)); // "nap,teachers,ear" or "PAN,cheaters,era"
