@@ -1,13 +1,12 @@
 'use strict'
 
-function sumSalaries(obj) {
-    return Object.values(obj).reduce((a, b) => a + b, 0);
+function count(obj) {
+    return Object.keys(obj).reduce((a) => a + 1, 0);
 }
 
-let salaries = {
-    "John": 100,
-    "Pete": 300,
-    "Mary": 250
+let user = {
+  name: 'John',
+  age: 30
 };
 
-alert(sumSalaries(salaries)); // 650
+alert( count(user) ); // 2
