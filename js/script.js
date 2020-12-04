@@ -1,12 +1,20 @@
 'use strict'
 
-function count(obj) {
-    return Object.keys(obj).reduce((a) => a + 1, 0);
+function topSalary(obj) {
+    let max = 0;
+    let name = null;
+    for (let [key, value] of Object.entries(obj)) {
+        if (value < max) continue;
+        max = value;
+        name = key;
+    }
+    return name;
 }
 
-let user = {
-  name: 'John',
-  age: 30
+let salaries = {
+    "John": 100,
+    "Pete": 300,
+    "Mary": 250
 };
 
-alert( count(user) ); // 2
+console.log(topSalary(salaries));
