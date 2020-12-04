@@ -1,18 +1,13 @@
 'use strict'
 
-function aclean(arr) {
-
-    let map = new Map();
-
-    for (let str of arr) {
-
-        let sorted = str.toLowerCase().split('').sort().join('');
-        map.set(sorted, str);
-    }
-
-    return Array.from(map.values());
+function sumSalaries(obj) {
+    return Object.values(obj).reduce((a, b) => a + b, 0);
 }
 
-let arr = ["nap", "teachers", "cheaters", "PAN", "ear", "era", "hectares"];
+let salaries = {
+    "John": 100,
+    "Pete": 300,
+    "Mary": 250
+};
 
-alert(aclean(arr)); // "nap,teachers,ear" or "PAN,cheaters,era"
+alert(sumSalaries(salaries)); // 650
