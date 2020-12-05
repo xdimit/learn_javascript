@@ -1,7 +1,10 @@
 'use strict'
 
-function getLastDayOfMonth(year, month) {
-    return new Date(year, month + 1, 0).getDate();
+function getSecondsToTomorrow() {
+    let d = new Date();
+    const fullDay = 24 * 3600;
+    return fullDay - (d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds());
 }
 
-console.log(getLastDayOfMonth(2012, 1)); // 29 feb
+
+console.log(`${getSecondsToTomorrow()}`);
