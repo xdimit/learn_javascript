@@ -1,17 +1,28 @@
 'use strict'
 
-function byField(fieldName) {
-    return (a, b) => a[fieldName] > b[fieldName] ? 1 : -1;
-}
+function makeCounter() {
+    let count = 0;
+  
+    function func() {
+        return count++;
+    }
 
-let users = [
-  { name: "John", age: 20, surname: "Johnson" },
-  { name: "Pete", age: 18, surname: "Peterson" },
-  { name: "Ann", age: 19, surname: "Hathaway" }
-];
+    func.set = (x) => count = x;
 
-users.sort(byField('name'));
-users.forEach(user => alert(user.name)); // Ann, John, Pete
+    func.decrease = () => count--;
 
-users.sort(byField('age'));
-users.forEach(user => alert(user.name)); // Pete, Ann, John
+    return func;
+  }
+  
+  let counter = makeCounter();
+  
+  alert( counter() ); // 0
+  alert( counter() ); // 1
+  
+  counter.set(10); // установить новое значение счётчика
+  
+  alert( counter() ); // 10
+  
+  counter.decrease(); // уменьшить значение счётчика на 1
+  
+  alert( counter() ); // 10 (вместо 11)
