@@ -1,16 +1,15 @@
 'use strict'
 
-function fib(n) {
-  let a = 1;
-  let b = 1;
-  for (let i = 3; i <= n; i++) {
-    let c = a + b;
-    a = b;
-    b = c;
-  }
-  return b;
+let arr = [1, 2, 3, 4, 5, 6, 7];
+
+function inBetween(a, b) {
+    return (item) => item >= a && item <= b;    
 }
 
-alert( fib(3) ); // 2
-alert( fib(7) ); // 13
-alert( fib(77) ); // 5527939700884757
+function inArray(arr) {
+    return (item) => arr.includes(item);
+}
+
+alert(arr.filter(inBetween(3, 6))); // 3,4,5,6
+
+alert(arr.filter(inArray([1, 2, 10]))); // 1,2
