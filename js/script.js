@@ -1,10 +1,16 @@
 'use strict'
 
-function getSecondsToTomorrow() {
-    let d = new Date();
-    const fullDay = 24 * 3600;
-    return fullDay - (d.getHours() * 3600 + d.getMinutes() * 60 + d.getSeconds());
+function fib(n) {
+  let a = 1;
+  let b = 1;
+  for (let i = 3; i <= n; i++) {
+    let c = a + b;
+    a = b;
+    b = c;
+  }
+  return b;
 }
 
-
-console.log(`${getSecondsToTomorrow()}`);
+alert( fib(3) ); // 2
+alert( fib(7) ); // 13
+alert( fib(77) ); // 5527939700884757
