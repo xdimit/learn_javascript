@@ -1,28 +1,22 @@
 'use strict'
 
-function makeCounter() {
-    let count = 0;
-  
-    function func() {
-        return count++;
+function sum(a) {
+    let sum = a;
+
+    function f(b) {
+         sum += b;
+         return f;
     }
 
-    func.set = (x) => count = x;
+    f[Symbol.toPrimitive] = function() {
+            return sum;
+        }
 
-    func.decrease = () => count--;
+    return f;
+}
 
-    return func;
-  }
-  
-  let counter = makeCounter();
-  
-  alert( counter() ); // 0
-  alert( counter() ); // 1
-  
-  counter.set(10); // установить новое значение счётчика
-  
-  alert( counter() ); // 10
-  
-  counter.decrease(); // уменьшить значение счётчика на 1
-  
-  alert( counter() ); // 10 (вместо 11)
+console.log(sum(1)(2)); // == 3; // 1 + 2
+console.log(sum(1)(2)(3)); // == 6; // 1 + 2 + 3
+console.log(sum(5)(-1)(2)); // == 6
+console.log(sum(6)(-1)(-2)(-3)); // == 0
+console.log(sum(0)(1)(2)(3)(4)(5)); // == 15
