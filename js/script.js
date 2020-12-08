@@ -1,19 +1,23 @@
 'use strict'
 
-function delay(f, ms) {
+function debounce(f, ms) {
+    let isCooldown = false;
 
     return function(...args) {
-        setTimeout(() => f.apply(this, args), ms);
+        if (isCooldown) return;
+
+        isCooldown = true;
+        f.apply(this, args);
+
+        setTimeout(() => isCooldown = false, ms);
     }
 }
 
-function f(x) {
-    alert(x);
-}
+let f = debounce(alert, 1000);
 
-// создаём обёртки
-let f1000 = delay(f, 1000);
-let f1500 = delay(f, 3500);
+f(1); // выполняется немедленно
+f(2); // проигнорирован
 
-f1000("test"); // показывает "test" после 1000 мс
-f1500("test"); // показывает "test" после 1500 мс
+setTimeout(() => f(3), 100); // проигнорирован (прошло только 100 мс)
+setTimeout(() => f(4), 1100); // выполняется
+setTimeout(() => f(5), 1500); // проигнорирован (прошло только 400 мс от последнего вызова)
