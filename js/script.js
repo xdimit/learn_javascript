@@ -1,17 +1,25 @@
 'use strict'
 
-function printNumbers(from, to) {
+function spy(func) {
 
-    let num = from;
+    function wrapper(...args) {
+        wrapper.calls.push(args);
+        return func.apply(this, args);
+    }
 
-    setTimeout(function f() {
-        alert(num);
-        if (num < to) {
-            setTimeout(f, 1000);
-        }
-        num++;
-    }, 1000);
-
+    wrapper.calls = [];
+    return wrapper;
 }
 
-printNumbers(5, 10);
+function work(a, b) {
+    alert(a + b); // произвольная функция или метод
+}
+
+work = spy(work);
+
+work(1, 2); // 3
+work(4, 5); // 9
+
+for (let args of work.calls) {
+    alert('call:' + args.join()); // "call:1,2", "call:4,5"
+}
