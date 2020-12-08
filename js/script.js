@@ -1,25 +1,19 @@
 'use strict'
 
-function spy(func) {
+function delay(f, ms) {
 
-    function wrapper(...args) {
-        wrapper.calls.push(args);
-        return func.apply(this, args);
+    return function(...args) {
+        setTimeout(() => f.apply(this, args), ms);
     }
-
-    wrapper.calls = [];
-    return wrapper;
 }
 
-function work(a, b) {
-    alert(a + b); // произвольная функция или метод
+function f(x) {
+    alert(x);
 }
 
-work = spy(work);
+// создаём обёртки
+let f1000 = delay(f, 1000);
+let f1500 = delay(f, 3500);
 
-work(1, 2); // 3
-work(4, 5); // 9
-
-for (let args of work.calls) {
-    alert('call:' + args.join()); // "call:1,2", "call:4,5"
-}
+f1000("test"); // показывает "test" после 1000 мс
+f1500("test"); // показывает "test" после 1500 мс
