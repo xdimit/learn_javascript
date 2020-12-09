@@ -1,23 +1,43 @@
 'use strict'
 
-function debounce(f, ms) {
-    let isCooldown = false;
+function throttle(f, ms) {
+    let isCooldown = false,
+        saveArgs,
+        saveThis;
 
-    return function(...args) {
-        if (isCooldown) return;
+    return function wrapper(...args) {
+        if (isCooldown) {
+            saveArgs = args;
+            saveThis = this;
+            return;
+        }
 
-        isCooldown = true;
         f.apply(this, args);
 
-        setTimeout(() => isCooldown = false, ms);
+        isCooldown = true;
+
+        setTimeout(() => {
+            isCooldown = false;
+            if (saveArgs) {
+                wrapper.apply(saveThis, saveArgs);
+                saveArgs = saveThis = null;
+            }
+        }, ms);
     }
+
+    return wrapper;
 }
 
-let f = debounce(alert, 1000);
+function f(a) {
+    console.log(a)
+}
 
-f(1); // выполняется немедленно
-f(2); // проигнорирован
+// f1000 передаёт вызовы f максимум раз в 1000 мс
+let f1000 = throttle(f, 1000);
 
-setTimeout(() => f(3), 100); // проигнорирован (прошло только 100 мс)
-setTimeout(() => f(4), 1100); // выполняется
-setTimeout(() => f(5), 1500); // проигнорирован (прошло только 400 мс от последнего вызова)
+f1000(1); // показывает 1
+f1000(2); // (ограничение, 1000 мс ещё нет)
+f1000(3); // (ограничение, 1000 мс ещё нет)
+
+// когда 1000 мс истекли ...
+// ...выводим 3, промежуточное значение 2 было проигнорировано
