@@ -1,21 +1,21 @@
 'use strict'
 
-Function.prototype.defer = function(ms) {
-
-    return (...args) => {
-        setTimeout(() => this.apply(null, args), ms);
+let dictionary = Object.create(null, {
+    toString: {
+        value() {
+            return Object.keys(this).join();
+        }
     }
+});
+
+// добавляем немного данных
+dictionary.apple = "Apple";
+dictionary.__proto__ = "test"; // здесь __proto__ -- это обычный ключ
+
+// только apple и __proto__ выведены в цикле
+for (let key in dictionary) {
+    alert(key); // "apple", затем "__proto__"
 }
 
-function f(a, b) {
-    alert(a + b);
-}
-
-console.log(f.defer(5000)(1, 2)); // выведет 3 через 1 секунду.
-
-// Function.prototype.defer = function(ms) {
-//   let f = this;
-//   return function(...args) {
-//     setTimeout(() => f.apply(this, args), ms);
-//   }
-// };
+// ваш метод toString в действии
+alert(dictionary); // "apple,__proto__"
