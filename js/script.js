@@ -6,7 +6,6 @@ class Clock {
     }
 
     render() {
-
         let date = new Date();
 
         let hours = date.getHours();
@@ -28,16 +27,29 @@ class Clock {
 
     stop() {
         clearInterval(this.timer);
-
     }
 
     start() {
         this.render();
         this.timer = setInterval(() => this.render(), 1000);
     }
-
 }
 
+class ExtendedClock extends Clock {
+    constructor(options) {
+        super(options);
+        let { precision = 1000 } = options;
+        this.precision = precision;
+    }
 
-let clock = new Clock({ template: 'h:m:s' });
+    start() {
+        this.render();
+        this.timer = setInterval(() => this.render(), this.precision);
+    }
+}
+
+let clock = new ExtendedClock({
+    template: 'h:m:s',
+    precision: 10000
+});
 clock.start();
