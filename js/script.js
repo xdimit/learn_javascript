@@ -1,17 +1,46 @@
 'use strict'
 
-class FormatError extends SyntaxError {
-    constructor(message) {
-        super(message);
-        this.name = "FormatError";
+class HttpError extends Error {
+    constructor(response) {
+        super(`${response.status} for ${response.url}`);
+        this.name = 'HttpError';
+        this.response = response;
     }
 }
 
-let err = new FormatError("ошибка форматирования");
+async function loadJson(url) {
+    let response = await fetch(url);
 
-alert( err.message ); // ошибка форматирования
-alert( err.name ); // FormatError
-alert( err.stack ); // stack
+    if (response.status == 200) {
+        return response.json();
+    } else
+        throw new HttpError(response);
+}
 
-alert( err instanceof FormatError ); // true
-alert( err instanceof SyntaxError ); // true (потому что наследует от SyntaxError)
+// Запрашивать логин, пока github не вернёт существующего пользователя.
+async function demoGithubUser() {
+    // debugger;
+    let user;
+    while (true) {
+        let name = await prompt("Введите логин?", "iliakan");
+
+        try {
+            user = await loadJson(`https://api.github.com/users/${name}`);
+            if(user.name == null) continue;
+            break;
+
+        } catch (err) {
+            // alert(err.name);
+            if (err instanceof HttpError && err.response.status == 404) {
+                alert("Такого пользователя не существует, пожалуйста, повторите ввод.");
+            } else {
+                throw err;
+            }
+        }
+    };
+
+    alert(`Полное имя: ${user.name}.`);
+    return user;
+}
+
+demoGithubUser();
