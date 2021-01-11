@@ -1,46 +1,22 @@
 'use strict'
 
-class HttpError extends Error {
-    constructor(response) {
-        super(`${response.status} for ${response.url}`);
-        this.name = 'HttpError';
-        this.response = response;
-    }
-}
+let user = {
+    name: "John"
+};
 
-async function loadJson(url) {
-    let response = await fetch(url);
-
-    if (response.status == 200) {
-        return response.json();
-    } else
-        throw new HttpError(response);
-}
-
-// Запрашивать логин, пока github не вернёт существующего пользователя.
-async function demoGithubUser() {
-    // debugger;
-    let user;
-    while (true) {
-        let name = await prompt("Введите логин?", "iliakan");
-
-        try {
-            user = await loadJson(`https://api.github.com/users/${name}`);
-            if(user.name == null) continue;
-            break;
-
-        } catch (err) {
-            // alert(err.name);
-            if (err instanceof HttpError && err.response.status == 404) {
-                alert("Такого пользователя не существует, пожалуйста, повторите ввод.");
+function wrap(target) {
+    return new Proxy(target, {
+        get(target, prop, receiver) {
+            if (prop in target) {
+                return Reflect.get(target, prop, receiver);
             } else {
-                throw err;
+                throw ReferenceError(`Свойство не существует: ${prop}`);
             }
         }
-    };
-
-    alert(`Полное имя: ${user.name}.`);
-    return user;
+    });
 }
 
-demoGithubUser();
+user = wrap(user);
+
+alert(user.name); // John
+alert(user.age); // Ошибка: такого свойства не существует
