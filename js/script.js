@@ -1,22 +1,16 @@
 'use strict'
 
-let user = {
-    name: "John"
-};
+let array = [1, 2, 3];
 
-function wrap(target) {
-    return new Proxy(target, {
-        get(target, prop, receiver) {
-            if (prop in target) {
-                return Reflect.get(target, prop, receiver);
-            } else {
-                throw ReferenceError(`Свойство не существует: ${prop}`);
-            }
+array = new Proxy(array, {
+    get(target, prop, receiver) {
+        if (prop < 0) {
+            prop = +prop + target.length;
         }
-    });
-}
+        return Reflect.get(target, prop, receiver);
+    }
+});
 
-user = wrap(user);
-
-alert(user.name); // John
-alert(user.age); // Ошибка: такого свойства не существует
+alert(array[-1]); // 3
+alert(array[-2]); // 2
+alert(array[-3]); // 1
