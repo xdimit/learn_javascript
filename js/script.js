@@ -1,16 +1,29 @@
 'use strict'
 
-let array = [1, 2, 3];
+const namesArr = ['iliakan', 'remy', 'no.such.users'];
 
-array = new Proxy(array, {
-    get(target, prop, receiver) {
-        if (prop < 0) {
-            prop = +prop + target.length;
-        }
-        return Reflect.get(target, prop, receiver);
+async function getUsers(names) {
+    let jobs = [];
+
+    for (let name of names) {
+        let job = fetch(`https://api.github.com/users/${name}`)
+            .then(successResponse => {
+                    if (successResponse.status != 200) {
+                        return null;
+                    } else {
+                        return successResponse.json();
+                    }
+                },
+
+                faileResponse => null
+
+            );
+        jobs.push(job);
     }
-});
 
-alert(array[-1]); // 3
-alert(array[-2]); // 2
-alert(array[-3]); // 1
+    let result = await Promise.all(jobs);
+
+    return result;
+}
+
+console.log(getUsers(namesArr));
